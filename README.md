@@ -52,7 +52,7 @@ pip install -r requirements-training.txt  # For model training
 
 3. Install UI dependencies:
 ```bash
-cd genre-classifier-ui
+cd web-application/frontend
 npm install
 ```
 
@@ -62,23 +62,24 @@ npm install
 
 1. Start the UI development server:
 ```bash
-cd genre-classifier-ui
+cd web-application/frontend
 npm run dev
 ```
 
 2. Start the API service:
 ```bash
+cd web-application/api
 python3 model_service.py
 ```
 
-The application will be available at `http://localhost:3000` (or the port specified in the console output).
+The application will be available at `http://localhost:3000` (frontend) `http://localhost:8000` (backend).
 
 ### Key Components
 
-- `index.py`: Main training pipeline
-- `login_to_huggingface.py`: HuggingFace authentication and model pushing
-- `test_model.py`: Local model testing utility
-- `model_service.py`: FastAPI server for model inference
+- `model-development/index.py`: Main training pipeline
+- `model-development/login_to_huggingface.py`: HuggingFace authentication and model pushing
+- `model-development/test_model.py`: Local model testing utility
+- `web-application/api/model_service.py`: FastAPI server for model inference
 
 ## Technology Stack
 
