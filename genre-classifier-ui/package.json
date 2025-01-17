@@ -11,6 +11,7 @@
   "dependencies": {
     "formidable": "^3.5.2",
     "framer-motion": "^11.18.0",
+    "lru-cache": "^11.0.2",
     "lucide-react": "^0.471.1",
     "next": "15.1.4",
     "react": "^19.0.0",

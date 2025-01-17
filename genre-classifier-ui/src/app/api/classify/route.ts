@@ -1,57 +1,60 @@
 import { NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { unlink } from 'fs/promises';
-import path from 'path';
+import { rateLimit } from '@/lib/rate-limit';
 
-const execAsync = promisify(exec);
+// Create a rate limiter instance
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500, // Max number of unique users per interval
+});
 
 export async function POST(request: Request) {
   try {
+    // Apply rate limiting
+    try {
+      await limiter.check(5, 'CACHE_TOKEN'); // 5 requests per minute
+    } catch {
+      return NextResponse.json(
+        { error: 'Too Many Requests' },
+        { status: 429 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('audio') as File;
     
     if (!file) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'No file provided' },
+        { status: 400 }
+      );
     }
 
-    // Create a temporary file path
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const tempFilePath = path.join(process.cwd(), 'tmp', `${Date.now()}-${file.name}`);
-    
-    // Ensure tmp directory exists
-    await execAsync(`mkdir -p ${path.join(process.cwd(), 'tmp')}`);
-    
-    // Write the file
-    await writeFile(tempFilePath, buffer);
+    // Forward request to model service
+    const modelServiceUrl = process.env.MODEL_SERVICE_URL || 'http://localhost:8000';
+    const newFormData = new FormData();
+    newFormData.append('file', file);
 
-    // Execute the Python script
-    const { stdout, stderr } = await execAsync(`python3 classify_script.py "${tempFilePath}"`);
+    const response = await fetch(`${modelServiceUrl}/classify`, {
+      method: 'POST',
+      body: newFormData,
+    });
 
-    if (stderr) {
-      console.error('Python script error:', stderr);
+    if (!response.ok) {
+      const error = await response.json();
+      return NextResponse.json(
+        { error: error.detail || 'Model service error' },
+        { status: response.status }
+      );
     }
 
-    // Parse the Python script output
-    const predictions = stdout
-      .split('\n')
-      .filter(line => line.includes(':'))
-      .map(line => {
-        const [label, score] = line.split(':').map(s => s.trim());
-        return {
-          label,
-          score: parseFloat(score)
-        };
-      });
+    const result = await response.json();
+    return NextResponse.json(result);
 
-    // Clean up the temporary file
-    await unlink(tempFilePath);
-
-    return NextResponse.json({ predictions });
   } catch (error) {
     console.error('Error processing request:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
