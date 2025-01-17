@@ -9,8 +9,8 @@ import { ProcessingAnimation } from './ProcessingAnimation';
 import { TypewriterText } from './TypewriterText';
 import { InitialView } from './InitialView';
 import { ResultsView } from './ResultsView';
-import { ErrorOverlay } from './ErrorOverlay';
 import { DragOverlay } from './DragOverlay';
+import { ErrorOverlay } from './ErrorOverlay';
 
 const AudioClassifier = () => {
   const [isProcessing, setIsProcessing] = useState(false);
