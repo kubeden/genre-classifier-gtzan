@@ -1,4 +1,4 @@
-# Genre Classifier
+# DistilHuBERT Genre Classifier
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
