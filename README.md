@@ -1,8 +1,12 @@
 # Genre Classifier
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
+![TypeScript](https://img.shields.io/badge/typescript-%5E5.0.0-blue)
+
 The following project is a Musical Genre Classification POC.
 
-The guide and thoughts on the whole excercise you can read [here](#).
+The guide and my thoughts during the whole excercise you can read [here](#).
 
 And if you like your content in video form, you can watch the video [here](#).
 
@@ -27,58 +31,78 @@ The POC consists of:
 
 - hosting the application & service on a kubernetes cluster
 
-#### Involved Technologies
+## Getting Started
 
-**Technologies used:**
+### Prerequisites
 
-- Python
-- Typescript (NextJS)
-- Kubernetes
-- Nix
-- Git
-- HuggingFace
+- Python 3.8+
+- Node.js 18+
+- npm or yarn
+- Kubernetes cluster (for production deployment)
 
-> All required libraries for the training part are in the `requirements-training.txt` file.
+### Installation
 
-> And the required libraries for the API service are in the `requirements-api.txt` file.
-
-## More Information
-
-### Scripts
-
-- **index.py:** main training logic
-- **login_to_huggingface.py:** login and push the model to huggingface
-- **test_model.py:** test the model locally with an .mp3 input
-- **model_service.py:** start a `fastapi` server for model inference
-
-### UI
-
-The `genre-classifier-ui` contains a simple NextJS frontend.
-
-To start the UI, do the following:
-
-```
-cd genre-classifier-ui
-npm install
-npm run dev
+1. Clone the repository:
+```bash
+git clone https://github.com/kubeden/genre-classifier.git
+cd genre-classifier
 ```
 
-You will get an output with the localhost:port, CTRL + right click to open the web page.
-
-### Running The Whole Application
-
-To run the complete solution locally, do the following:
-
-```
-# open two terminnal windows / tabs
-
-# window one:
-cd genre-classifier-ui
-npm install
-npm run dev
-
-# window two:
+2. Set up the Python environment:
+```bash
 python3 -m venv ~/genre-classifier
-pip install -r ./requirements-api.txt
+source ~/genre-classifier/bin/activate
+pip install -r requirements-api.txt  # For API service
+pip install -r requirements-training.txt  # For model training
+```
+
+3. Install UI dependencies:
+```bash
+cd genre-classifier-ui
+npm install
+```
+
+## Usage
+
+### Running Locally
+
+1. Start the UI development server:
+```bash
+cd genre-classifier-ui
+npm run dev
+```
+
+2. Start the API service:
+```bash
 python3 model_service.py
 ```
+
+The application will be available at `http://localhost:3000` (or the port specified in the console output).
+
+### Key Components
+
+- `index.py`: Main training pipeline
+- `login_to_huggingface.py`: HuggingFace authentication and model pushing
+- `test_model.py`: Local model testing utility
+- `model_service.py`: FastAPI server for model inference
+
+## Technology Stack
+
+- **Machine Learning**: Python, HuggingFace Transformers
+- **Frontend**: TypeScript, Next.js
+- **Backend**: FastAPI, Python
+- **Infrastructure**: Kubernetes, Nix
+- **Version Control**: Git
+- **Model Registry**: HuggingFace
+
+## Documentation
+
+- Blog Post: [Link](#)
+- YT Video: [Link](#)
+- API documentation: Generated automatically at `/docs` endpoint when running the API service
+
+## Contact
+
+Denislav Gavrilov - [dennis@kubeden.io](mailto:dennis@kubeden.io)
+
+Project Link: [https://github.com/kubeden/genre-classifier-gtzan](https://github.com/kubeden/genre-classifier-gtzan)
