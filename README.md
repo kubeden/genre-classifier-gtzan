@@ -4,15 +4,9 @@
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
 ![TypeScript](https://img.shields.io/badge/typescript-%5E5.0.0-blue)
 
-The following project is a Musical Genre Classification POC.
+The following project is a Musical Genre Classification POC. The guide and my thoughts during the whole excercise you can read [here](#). And if you like your content in video form, you can watch the video [here](#).
 
-The guide and my thoughts during the whole excercise you can read [here](#).
-
-And if you like your content in video form, you can watch the video [here](#).
-
-### Details & Involved Technologies:
-
-#### Details
+## Quick Details
 
 The POC consists of:
 
