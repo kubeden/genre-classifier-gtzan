@@ -36,7 +36,7 @@ def classify_song(audio_path):
         trimmed_path = trim_audio(audio_path)
         
         # Initialize the classifier
-        classifier = pipeline("audio-classification", model="ana-mariya/distilhubert-finetuned-gtzan")
+        classifier = pipeline("audio-classification", model="kuberdenis/kuberdenis-distilhubert-gtzan")
         
         # Predict
         predictions = classifier(trimmed_path)
